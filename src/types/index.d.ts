@@ -6,7 +6,7 @@ export enum FollowUpStatusEnum {
   }
 
 export interface FollowUp {
-    id: string;
+    id: number;
     status: FollowUpStatusEnum;
     createdAt: Date;
     updatedAt: Date;
@@ -16,7 +16,7 @@ export interface FollowUp {
 }
 
 export interface Lead {
-    id: string;
+    id: number;
     name: string;
     email: string;
     phone: string;
@@ -24,7 +24,7 @@ export interface Lead {
 }
 
 export interface User {
-    id: string;
+    id: number;
     name: string;
     email: string;
     role: string;
@@ -34,4 +34,8 @@ export interface createFollowUpParams {
     scheduledAt: Date;
     leadId: number;
     userId: number;
+}
+
+ export interface CreateLeadParams extends Omit<Lead, 'id'> {
+    id?: null;
 }
