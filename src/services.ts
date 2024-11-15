@@ -20,7 +20,7 @@ export async function fetchFollowups() {
         if(status !== 200) {
             throw new Error('Failed to fetch followups');
         }
-        return { followups: data.data}
+        return { followUps: data.data}
     } catch (error) {
         return { error }
     }
