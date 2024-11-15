@@ -56,7 +56,7 @@ export async function updateFollowUpStatus( id: number, newStatus: FollowUpStatu
         if(status !== 200) {
             throw new Error('Failed to update followup');
         }
-        return { followup: data}
+        return { followup: data.data}
     } catch (error) {
         return { error }
     }

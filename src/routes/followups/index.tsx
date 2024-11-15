@@ -38,6 +38,18 @@ function RouteComponent() {
     fetchAndSetFollowUps();
   }, []);
 
+  async function handleOnUpdateFolowUpStatus(followUpId : number, newStatus :  FollowUpStatusEnum){
+    try {
+        const {data, status, error} = await updateFollowUpStatus(followUpId, newStatus)
+        if(status !== 200) {
+          throw new Error(error)
+        }
+        setFollowUps(followUps.map(followUp => followUp.id === data.id ? {...data} : followUp))
+    } catch (error) {
+      console.error('Error updating follow up:', error);
+    }
+  }
+
   function UpdateFollowUpStatusButton({ followup }: { followup: FollowUp }) {
     
     if(followup.status == FollowUpStatusEnum.MISSED || currentUser.role === 'sales_rep'){
@@ -46,7 +58,7 @@ function RouteComponent() {
     }
 
     const newStatus = followup.status === FollowUpStatusEnum.PENDING ? { status: FollowUpStatusEnum.COMPLETED, action: 'Complete '} : {status: FollowUpStatusEnum.PENDING, action: 'Pend '} 
-    return  <Button onClick={() => updateFollowUpStatus(followup.id, newStatus.status)} >
+    return  <Button onClick={() => handleOnUpdateFolowUpStatus(followup.id, newStatus.status)} >
       {newStatus.action}follow up 
     </Button>
     
