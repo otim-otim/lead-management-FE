@@ -39,7 +39,8 @@ function RouteComponent() {
 
   function handleScheduleFollowUp(lead: Lead) {
     
-    navigate({ to: `/followups/create/` , params: { ...lead } });
+    // navigate({ to: `/followups/create/` , params: { ...lead } });
+    navigate({ to: `/followups/create/` ,  search: { lead: JSON.stringify(lead) }, });
   }
 
   

@@ -2,16 +2,17 @@ import { axiosAdapter } from "./axiosAdapter";
 import { createFollowUpParams, FollowUpStatusEnum } from "./types";
 import { Lead, CreateLeadParams } from "./types";
 
-export async function fetchLeads(): Promise<{ leads: Lead[] } | { error: any }> {
-    try {
-        const {data, status} = await axiosAdapter.get('/api/leads');
-        if(status !== 200) {
-            throw new Error('Failed to fetch leads');
-        }
-        return { leads: data.data}
-    } catch (error) {
-        return { error }
-    }
+export async function fetchLeads() {
+    return await axiosAdapter.get('/api/leads');
+    // try {
+    //     // if(status !== 200) {
+    //     //     throw new Error('Failed to fetch leads');
+    //     // }
+    //     // return res
+    // } catch (error) {
+    //     // console.log('error',error.message)
+    //     return { error }
+    // }
 }
 
 export async function fetchFollowups() {
