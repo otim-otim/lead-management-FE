@@ -38,6 +38,8 @@ export default function RouteComponent() {
             if(status !== 200) {
                 throw new Error(error);
             }
+            const user = data.user;
+            localStorage.setItem('currentUser', JSON.stringify(user));
             navigate({ to: '/' });
             
         } catch (error: any) {
