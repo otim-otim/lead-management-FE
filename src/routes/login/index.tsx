@@ -3,6 +3,7 @@ import { createFileRoute } from '@tanstack/react-router';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { axiosAdapter } from '../../axiosAdapter';
+import { useNavigate } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/login/')({
     component: RouteComponent,
@@ -11,6 +12,7 @@ export const Route = createFileRoute('/login/')({
 export default function RouteComponent() {
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
+    const navigate = useNavigate()
 
     function handleEmailChange(e: ChangeEvent<HTMLInputElement>): void {
         setEmail(e.target.value);
@@ -28,13 +30,16 @@ export default function RouteComponent() {
             await axiosAdapter.get('/sanctum/csrf-cookie');
 
             // Now make the login request
-            const res = await axiosAdapter.post<{ token: string }>('api/login', {
+            const {data, status,error} = await axiosAdapter.post<{ token: string }>('api/login', {
                 email,
                 password,
             });
 
-            console.log('Login successful:', res);
-            // Handle successful login (e.g., save user info, redirect, etc.)
+            if(status !== 200) {
+                throw new Error(error);
+            }
+            navigate({ to: '/' });
+            
         } catch (error: any) {
             console.error('Login failed:', error);
             // Handle login error (e.g., show an error message)
