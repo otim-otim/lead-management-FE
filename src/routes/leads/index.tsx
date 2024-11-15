@@ -20,13 +20,16 @@ function RouteComponent() {
     const fetchAndSetLeads = async () => {
       try {
         if(!leads.length){
-          const { leads: leadz} = await fetchLeads();
-          // console.log('leads res',res)
-          setLeads(leadz)
+          const {data, status, error} = await fetchLeads();
+          if(status !== 200)
+            throw error         
+
+          setLeads(data.data)
         }
-        // const leads = await fetchLeads();
-        // dispatch({ type: 'SET_LEADS', payload: leads });
       } catch (error) {
+        if(error.status === 401){
+          navigate({ to:'/login'})
+        }
         console.error('Error fetching leads:', error);
       }
     };
@@ -36,17 +39,19 @@ function RouteComponent() {
 
   function handleScheduleFollowUp(lead: Lead) {
     
-    navigate({ to: `/followups/create/` , params: { lead: lead } });
+    navigate({ to: `/followups/create/` , params: { ...lead } });
   }
 
   
   return (
     <>
-      <h1>Leads</h1>
-      <Button variant="primary" onClick={() => navigate({ to: `/leads/create/` })}>Create Lead</Button>
-      <ListGroup>
+      <div className='container'>
+
+      <h1 className='p-5'>Leads</h1>
+      <Button className='m-4' variant="primary" onClick={() => navigate({ to: `/leads/create/` })}>Create Lead</Button>
+      <ListGroup className='m-4 border'>
       {leads.map((lead : Lead) => (
-        <ListGroup.Item key={lead.id}>
+        <ListGroup.Item className='m-3 border-top ' key={lead.id}>
           <h2>{lead.name}</h2>
           <p>{lead.email}</p>
           <p>{lead.phone}</p>
@@ -54,6 +59,7 @@ function RouteComponent() {
         </ListGroup.Item>
       ))}
       </ListGroup>
+      </div>
     </>
   )
 }

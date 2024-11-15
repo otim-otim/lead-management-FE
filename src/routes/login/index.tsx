@@ -49,6 +49,8 @@ export default function RouteComponent() {
     }
 
     return (
+        <div className='container border p-3 col-md-5 col-sm-12'>
+
         <Form onSubmit={login}>
             <Form.Group className="mb-3" controlId="formBasicEmail">
                 <Form.Label>Email address</Form.Label>
@@ -74,5 +76,6 @@ export default function RouteComponent() {
                 Submit
             </Button>
         </Form>
+        </div>
     );
 }

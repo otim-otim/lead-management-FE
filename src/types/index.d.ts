@@ -1,5 +1,5 @@
 
-export enum FollowUpStatusEnum {
+export const  enum FollowUpStatusEnum {
     PENDING = 'Pending',
     COMPLETED = 'Completed',
     MISSED = 'Missed'

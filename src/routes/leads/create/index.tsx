@@ -11,22 +11,12 @@ export const Route = createFileRoute('/leads/create/')({
 
 function RouteComponent() {
   const navigate = useNavigate()
-  const [users, setUsers] = useState<User>()
+  
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [phone, setPhone] = useState('')
   
-  useEffect(() => {
-        const fetchAndSetUsers = async() =>{
-            try {
-                const { users: userz } = await fetchUsers();
-                setUsers(userz)
-            } catch (error) {
-                console.error('Error fetching leads:', error);
-            }
-        }
-        fetchAndSetUsers()
-  },[])
+ 
 
   async function storeNewLead(e : FormEvent) {
     e.preventDefault()
@@ -39,6 +29,8 @@ function RouteComponent() {
     navigate({ to: '/leads/' })
   }
   return (
+    <div className='container border p-3 col-md-5 col-sm-12'>
+
     <Form onSubmit={storeNewLead}>
       <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>Name</Form.Label>
@@ -55,12 +47,10 @@ function RouteComponent() {
         <Form.Label>Phone</Form.Label>
         <Form.Control type="tel" placeholder="Enter lead's phone" onChange={(e) => setPhone(e.target.value)}  />
       </Form.Group>
-      <Form.Group className="mb-3" controlId="formBasicCheckbox">
-        <Form.Check type="checkbox" label="Check me out" />
-      </Form.Group>
       <Button variant="primary" type="submit">
         Submit
       </Button>
     </Form>
+    </div>
   )
 }
